@@ -1,7 +1,10 @@
-import React, { useRef } from "react";
-import { useRouter } from 'next/router';
+import React, { useRef, useState } from "react";
+import Link from 'next/link'
 
-import Link from "next/link";
+import Router, { useRouter } from 'next/router';
+import dynamic from 'next/dynamic'
+
+const About = dynamic(() => import('./FormComponent'))
 import {
   AiOutlineMinus,
   AiOutlinePlus,
@@ -14,6 +17,8 @@ import toast from "react-hot-toast";
 import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../lib/client";
 import getStripe from '../lib/getStripe';
+import PlaceOrder from "./FormComponent";
+import FormComponent from "./FormComponent";
 
 const Cart = () => {
   const router = useRouter();
@@ -26,27 +31,12 @@ const Cart = () => {
     toggleCartItemQuanitity,
     onRemove,
   } = useStateContext();
-
-
-  const handleCheckout = async () => {
-    const stripe = await getStripe();
-
-    const response = await fetch("/api/stripe", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(cartItems),
-    });
-
-    if (response.statusCode === 500) return;
-
-    const data = await response.json();
-
-    toast.loading("...جاري النقل");
-
-    stripe.redirectToCheckout({ sessionId: data.id });
+  const [showForm, setShowForm] = useState(false);
+  const handleButtonClick = () => {
+    setShowForm(true);
   };
+
+
 
   return (
     <div className="cart-wrapper" ref={cartRef}>
@@ -89,6 +79,7 @@ const Cart = () => {
                   <div className="flex top">
                     <h5>{item.name}</h5>
                     <h4>دج{item.price}</h4>
+                    
                   </div>
                   <div className="flex bottom">
                     <div>
@@ -133,12 +124,15 @@ const Cart = () => {
               <h3>دج{totalPrice}</h3>
             </div>
             <div className="btn-container">
-              <button type="button" className="btn" onClick={handleCheckout}>
-              {/* <button type="button" className="btn" onClick={toForm}> */}
-                طلب المتج
+              <button type="button" className="btn" onClick={handleButtonClick}>
+      
+                طلب المتنج
               </button>
+            
             </div>
-          </div>
+
+            {showForm && <FormComponent />}
+            </div>
         )}
       </div>
     </div>

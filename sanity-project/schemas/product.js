@@ -35,6 +35,11 @@ export default {
         name: 'details',
         title: 'Details',
         type: 'string',
+      },
+      { 
+        name: 'stock',
+        title: 'Stock',
+        type: 'number',
       }
     ]
   }

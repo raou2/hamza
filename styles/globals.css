@@ -622,6 +622,10 @@ margin-top: 160px;
 }
 
 @media screen and (max-width:800px) {
+  .overflow{
+    position: relative;
+    bottom:6rem;
+  }
   .hero-banner-container{
     height: 560px;
   }
@@ -763,4 +767,14 @@ margin-top: 160px;
   width: 300px;
   margin: auto;
 }
+.cart-wrapper {
+  margin-bottom: 4rem;
+  display: inline-block;
 }
+.form {
+position: relative;
+top: 3rem;
+}
+
+}
+
